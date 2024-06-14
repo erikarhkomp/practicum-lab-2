@@ -1,0 +1,38 @@
+#include <iostream>
+#include <cmath>
+#include <random>
+
+// Функция для проверки принадлежности точки эллиптическому параболоиду
+bool isPointOnEllipticParaboloid(double x, double y, double z, double a, double b, double c, double d) {
+    return (x * x / (a * a) + y * y / (b * b) - z / c) == d;
+}
+
+int main() {
+    // Генерация случайных параметров эллиптического параболоида
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<double> distribution(-100.0, 100.0);
+
+    double a = distribution(gen); // Коэффициент a
+    double b = distribution(gen); // Коэффициент b
+    double c = distribution(gen); // Коэффициент c
+    double d = distribution(gen); // Коэффициент d
+
+    // Генерация случайной точки в пространстве
+    double x = distribution(gen);
+    double y = distribution(gen);
+    double z = distribution(gen);
+
+    // Проверка принадлежности точки эллиптическому параболоиду
+    bool pointOnEllipticParaboloid = isPointOnEllipticParaboloid(x, y, z, a, b, c, d);
+
+    // Вывод результатов
+    std::cout << "Точка (" << x << ", " << y << ", " << z << ") ";
+    if (pointOnEllipticParaboloid) {
+        std::cout << "принадлежит эллиптическому параболоиду." << std::endl;
+    } else {
+        std::cout << "не принадлежит эллиптическому параболоиду." << std::endl;
+    }
+
+    return 0;
+}
