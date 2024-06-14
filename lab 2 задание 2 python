@@ -1,0 +1,72 @@
+import numpy as np
+
+# Генерация случайных координат для трех векторов в трехмерном пространстве
+v1 = np.random.rand(3)
+v2 = np.random.rand(3)
+v3 = np.random.rand(3)
+
+# Нахождение длин векторов
+length_v1 = np.linalg.norm(v1)
+length_v2 = np.linalg.norm(v2)
+length_v3 = np.linalg.norm(v3)
+
+# Нахождение углов между векторами (в радианах)
+angle_v1_v2 = np.arccos(np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))
+angle_v1_v3 = np.arccos(np.dot(v1, v3) / (np.linalg.norm(v1) * np.linalg.norm(v3)))
+angle_v2_v3 = np.arccos(np.dot(v2, v3) / (np.linalg.norm(v2) * np.linalg.norm(v3))
+
+# Нахождение суммы и разности векторов
+sum_v1_v2 = v1 + v2
+diff_v1_v2 = v1 - v2
+sum_v1_v3 = v1 + v3
+diff_v1_v3 = v1 - v3
+sum_v2_v3 = v2 + v3
+diff_v2_v3 = v2 - v3
+
+# Проверка на то, что векторы не лежат в одной плоскости
+def check_coplanar(v1, v2, v3):
+    matrix = np.vstack((v1, v2, v3))
+    return np.linalg.matrix_rank(matrix) < 3
+
+# Проверка на параллельность векторов
+def check_parallel(v1, v2):
+    return np.cross(v1, v2) == 0
+
+vectors = [v1, v2, v3]
+parallel_pairs = []
+coplanar = check_coplanar(v1, v2, v3)
+
+for i in range(len(vectors)):
+    for j in range(i+1, len(vectors)):
+        if check_parallel(vectors[i], vectors[j]):
+            parallel_pairs.append((i+1, j+1))
+
+print("Длины векторов:")
+print("Длина v1:", length_v1)
+print("Длина v2:", length_v2)
+print("Длина v3:", length_v3)
+
+print("\nУглы между векторами (в радианах):")
+print("Угол между v1 и v2:", angle_v1_v2)
+print("Угол между v1 и v3:", angle_v1_v3)
+print("Угол между v2 и v3:", angle_v2_v3)
+
+print("\nСумма и разность векторов:")
+print("Сумма v1 и v2:", sum_v1_v2)
+print("Разность v1 и v2:", diff_v1_v2)
+print("Сумма v1 и v3:", sum_v1_v3)
+print("Разность v1 и v3:", diff_v1_v3)
+print("Сумма v2 и v3:", sum_v2_v3)
+print("Разность v2 и v3:", diff_v2_v3)
+
+if coplanar:
+    print("\nВекторы не лежат в одной плоскости.")
+else:
+    print("\nВекторы лежат в одной плоскости.")
+
+if parallel_pairs:
+    print("\nПараллельные векторы найдены:")
+    for pair in parallel_pairs:
+        print(f"Вектор {pair[0]} и вектор {pair[1]} параллельны.")
+else:
+    print("\nПараллельные векторы не найдены.")
