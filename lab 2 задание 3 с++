@@ -1,0 +1,60 @@
+#include <iostream>
+#include <cmath>
+#include <random>
+
+// Функция для проверки принадлежности точки гиперболе
+bool isPointOnHyperbola(double x, double y, double a, double b, double h, double k) {
+    return std::pow((x - h) / a, 2) - std::pow((y - k) / b, 2) == 1;
+}
+
+int main() {
+    // Генерация случайных параметров гиперболы
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<double> distribution(-100.0, 100.0);
+
+    double a = distribution(gen); // Действительная полуось
+    double b = distribution(gen); // Мнимая полуось
+    double h = distribution(gen); // Координата центра по x
+    double k = distribution(gen); // Координата центра по y
+
+    // Генерация случайной точки на плоскости
+    double x = distribution(gen);
+    double y = distribution(gen);
+
+    // Проверка принадлежности точки гиперболе
+    bool pointOnHyperbola = isPointOnHyperbola(x, y, a, b, h, k);
+
+    // Вычисление координат фокусов гиперболы
+    double c = std::sqrt(a * a + b * b);
+    double focus1_x = h + c;
+    double focus1_y = k;
+    double focus2_x = h - c;
+    double focus2_y = k;
+
+    // Нахождение длины действительной и мнимой полуосей
+    double realSemiAxisLength = 2 * a;
+    double imaginarySemiAxisLength = 2 * b;
+
+    // Нахождение эксцентриситета гиперболы
+    double eccentricity = c / a;
+
+    // Нахождение расстояния между директрисами гиперболы
+    double distanceBetweenDirectrices = 2 * std::abs(c);
+
+    // Вывод результатов
+    std::cout << "Точка (" << x << ", " << y << ") ";
+    if (pointOnHyperbola) {
+        std::cout << "принадлежит гиперболе." << std::endl;
+    } else {
+        std::cout << "не принадлежит гиперболе." << std::endl;
+    }
+
+    std::cout << "Координаты фокусов: (" << focus1_x << ", " << focus1_y << ") и (" << focus2_x << ", " << focus2_y << ")" << std::endl;
+    std::cout << "Длина действительной полуоси: " << realSemiAxisLength << std::endl;
+    std::cout << "Длина мнимой полуоси: " << imaginarySemiAxisLength << std::endl;
+    std::cout << "Эксцентриситет: " << eccentricity << std::endl;
+    std::cout << "Расстояние между директрисами: " << distanceBetweenDirectrices << std::endl;
+
+    return 0;
+}
